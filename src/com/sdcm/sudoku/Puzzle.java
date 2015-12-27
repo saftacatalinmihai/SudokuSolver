@@ -1,37 +1,71 @@
 package com.sdcm.sudoku;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
  * Created by Mihai on 12/26/2015.
+ *
  */
 public class Puzzle {
-    private List<Cell> cells;
     public int size;
+    private List<Cell> cells;
     public Puzzle(List<Cell> _cells, int size){
         this.cells = _cells;
         this.size = size;
+
+        if (!this.cells.stream().anyMatch(c -> c.value() == 0)) {
+            for (int i = 0; i < this.size; i++) {
+                for (int j = 0; j < this.size; j++) {
+                    Cell c = this.get_pos(i, j);
+                    if (!c.is_val_known()) {
+                        this.set_cell(c);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                Cell c = this.get_pos(i, j);
+                if (!c.is_val_known()) {
+                    this.link_dependent_cells(c);
+                }
+            }
+        }
+    }
+
+    public List<Cell> get_cells() {
+        return this.cells;
     }
 
     public boolean is_solved(){
         return this.cells.stream().allMatch(Cell::is_val_known);
     }
 
-//    public Puzzle clone_puzzle (){
-//        List<Cell> cloned_cells = new ArrayList<>(this.cells);
-//        return new Puzzle(cloned_cells, this.size);
-//    }
+    public Puzzle clone_puzzle() {
+        List<Cell> cloned_cells = this.cells
+                .stream()
+                .map(c -> {
+                    List<Integer> possible_values = new ArrayList<>();
+                    c.possible_values.forEach(possible_values::add);
+                    return new Cell(c.pos.i, c.pos.j, possible_values);
+                })
+                .collect(Collectors.toList());
+        return new Puzzle(cloned_cells, this.size);
+    }
 
     public void set_cell(Cell c){
         this.cells.add(c);
     }
 
     public Cell get_pos(int i, int j){
-        List<Cell> pos_list = this.cells.stream().filter(c -> c.pos.i == i && c.pos.j == j).collect(Collectors.toList());
-        return pos_list.isEmpty() ? new Cell(i,j) : pos_list.get(0);
+        List<Cell> cell_list = this.cells.stream().filter(c -> c.pos.i == i && c.pos.j == j).collect(Collectors.toList());
+        return cell_list.isEmpty() ? new Cell(i, j) : cell_list.get(0);
     }
 
     public Stream<Cell> get_line(int i){
@@ -61,7 +95,7 @@ public class Puzzle {
                             (col_nr) -> {
                                 Cell c = this.get_pos(line_nr, col_nr);
                                 if (c.pos.j % 3 == 0) { System.out.print("|");}
-                                System.out.print(c.value == 0 ? " " : c.value);
+                                System.out.print(c.value() == 0 ? " " : c.value());
                             }
                     );
                     System.out.println();
@@ -69,9 +103,9 @@ public class Puzzle {
     }
 
     public List<Integer> get_possible_values(int i, int j){
-        Set<Integer> line = this.get_line(i).map(c -> c.value).collect(Collectors.toSet());
-        Set<Integer> column = this.get_coll(j).map(c -> c.value).collect(Collectors.toSet());
-        Set<Integer> block = this.get_block(i,j).map(c -> c.value).collect(Collectors.toSet());
+        Set<Integer> line = this.get_line(i).map(Cell::value).collect(Collectors.toSet());
+        Set<Integer> column = this.get_coll(j).map(Cell::value).collect(Collectors.toSet());
+        Set<Integer> block = this.get_block(i, j).map(Cell::value).collect(Collectors.toSet());
 
         Set<Integer> union = new HashSet<>();
         union.addAll(line);
@@ -87,4 +121,20 @@ public class Puzzle {
         return possible_values.stream().collect(Collectors.toList());
     }
 
+    public void link_dependent_cells(Cell cell) {
+        this.get_line(cell.pos.i)
+                .filter(c -> !c.is_val_known())
+                .filter(c -> c.pos.j != cell.pos.j)
+                .forEach(c -> c.attach(cell));
+
+        this.get_coll(cell.pos.j)
+                .filter(c -> !c.is_val_known())
+                .filter(c -> c.pos.i != cell.pos.i)
+                .forEach(c -> c.attach(cell));
+
+        this.get_block(cell.pos.i, cell.pos.j)
+                .filter(c -> !c.is_val_known())
+                .filter(c -> c.pos.i != cell.pos.i && c.pos.j != cell.pos.j)
+                .forEach(c -> c.attach(cell));
+    }
 }
