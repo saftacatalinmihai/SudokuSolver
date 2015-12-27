@@ -21,7 +21,7 @@ public class Main {
 //        Cell[] line = p1.get_line(0);
 //        Cell[] coll = p1.get_coll(0);
 //        Cell[] block = p1.get_block(4,3);
-//        Puzzle solved = Solver.solve(p1);
+//        Puzzle solved = Rezolvator.rezolva(p1);
 //        System.out.println("Done");
     }
 }
