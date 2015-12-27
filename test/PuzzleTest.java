@@ -1,5 +1,6 @@
-import com.sdcm.sudoku.Rezolvator;
-import org.junit.BeforeClass;
+import com.sdcm.sudoku.ReadFromFile;
+import com.sdcm.sudoku.Solver;
+import org.junit.Before;
 import org.junit.Test;
 import com.sdcm.sudoku.Cell;
 import com.sdcm.sudoku.Puzzle;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
@@ -17,10 +17,10 @@ import static org.junit.Assert.*;
  */
 public class PuzzleTest {
 
-    private static Puzzle p;
-    @BeforeClass
-    public static void setUp(){
-        List<Cell> cells = new ArrayList<Cell>();
+    private Puzzle p;
+    @Before
+    public void setUp(){
+        List<Cell> cells = new ArrayList<>();
         List<Cell> cells_to_add = Arrays.asList(
                 new Cell(0,1,4),
                 new Cell(0,4,3),
@@ -60,7 +60,7 @@ public class PuzzleTest {
                 new Cell(8,7,4)
         );
         cells.addAll(cells_to_add);
-        p = new Puzzle(cells, 9);
+        this.p = new Puzzle(cells, 9);
     }
 
     @Test
@@ -69,41 +69,28 @@ public class PuzzleTest {
         assertEquals(p.get_pos(0,4).value, new Integer(3));
         assertEquals(p.get_pos(0,1).value, new Integer(4));
 
-        List<Cell> line1 = p.get_line(0).collect(Collectors.toList());
-        line1.forEach(c -> System.out.println("Value at i:" + c.pos.i + " j:" + c.pos.j + " -> " + c.value));
+        List<Cell> line1 = this.p.get_line(0).collect(Collectors.toList());
+//        line1.forEach(c -> System.out.println("Value at i:" + c.pos.i + " j:" + c.pos.j + " -> " + c.value));
 
-        p.get_pos(0,2);
+        this.p.get_pos(0,2);
 
-        List<Integer> block11 = Arrays.asList(
-                new Integer(6),
-                new Integer(3),
-                new Integer(5),
-                new Integer(1)
-        );
-        List<Integer> test_block1 = p.get_block(3,3).map(c -> c.value).collect(Collectors.toList());
+        List<Integer> block11 = Arrays.asList(6,3,5,1);
+
+        List<Integer> test_block1 = this.p.get_block(3,3).map(c -> c.value).collect(Collectors.toList());
         assertTrue(block11.containsAll(test_block1));
-        List<Integer> test_block2 = p.get_block(3,4).map(c -> c.value).collect(Collectors.toList());
+        List<Integer> test_block2 = this.p.get_block(3,4).map(c -> c.value).collect(Collectors.toList());
         assertTrue(block11.containsAll(test_block2));
 
-        List<Integer> block00 = Arrays.asList(
-                new Integer(4),
-                new Integer(3),
-                new Integer(1),
-                new Integer(5),
-                new Integer(9),
-                new Integer(8)
-        );
+        List<Integer> block00 = Arrays.asList(4,3,1,5,9,8);
+
         List<Integer> test_block3 = p.get_block(0,0).map(c -> c.value).collect(Collectors.toList());
         assertTrue(block00.containsAll(test_block3));
 
         List<Integer> test_block4 = p.get_block(2,2).map(c -> c.value).collect(Collectors.toList());
-        assertTrue(block00.containsAll(test_block3));
+        assertTrue(block00.containsAll(test_block4));
 
-        List<Integer> block32 = Arrays.asList(
-                new Integer(1),
-                new Integer(7),
-                new Integer(8)
-        );
+        List<Integer> block32 = Arrays.asList(1,7,8);
+
         List<Integer> test_block5 = p.get_block(8,5).map(c -> c.value).collect(Collectors.toList());
         assertTrue(block32.containsAll(test_block5));
 
@@ -118,8 +105,14 @@ public class PuzzleTest {
 
     @Test
     public void testSolve(){
-        Puzzle p_rezolvat = Rezolvator.rezolva(p);
-        p_rezolvat.print_puzzle();
-        assertEquals(p_rezolvat.get_pos(0,0).value, new Integer(7));
+        Puzzle p_solved = Solver.solve(p);
+        p_solved.print_puzzle();
+        assertEquals(p_solved.get_pos(0,0).value, new Integer(7));
+    }
+
+    @Test
+    public void testReadPuzzleFromFile(){
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle1.txt");
+        assertEquals(p.get_pos(0,1).value, new Integer(4));
     }
 }

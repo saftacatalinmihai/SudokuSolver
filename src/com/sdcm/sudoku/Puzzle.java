@@ -17,13 +17,13 @@ public class Puzzle {
     }
 
     public boolean is_solved(){
-        return this.cells.stream().allMatch(Cell::is_val_knwon);
+        return this.cells.stream().allMatch(Cell::is_val_known);
     }
 
-    public Puzzle clone_puzzle (){
-        List<Cell> cloned_cells = new ArrayList<>(this.cells);
-        return new Puzzle(cloned_cells, this.size);
-    }
+//    public Puzzle clone_puzzle (){
+//        List<Cell> cloned_cells = new ArrayList<>(this.cells);
+//        return new Puzzle(cloned_cells, this.size);
+//    }
 
     public void set_cell(Cell c){
         this.cells.add(c);
@@ -78,13 +78,13 @@ public class Puzzle {
         union.addAll(column);
         union.addAll(block);
 
-        Set<Integer> possilbe_vals = IntStream.range(1,10)
+        Set<Integer> possible_values = IntStream.range(1,10)
                 .boxed()
                 .collect(Collectors.toSet());
 
-        possilbe_vals.removeAll(union);
+        possible_values.removeAll(union);
 
-        return possilbe_vals.stream().collect(Collectors.toList());
+        return possible_values.stream().collect(Collectors.toList());
     }
 
 }
