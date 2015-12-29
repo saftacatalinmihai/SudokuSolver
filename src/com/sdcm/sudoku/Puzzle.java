@@ -29,14 +29,25 @@ public class Puzzle {
                 }
             }
         }
-        for (int i = 0; i < this.size; i++) {
+        this.cells.stream().filter(c -> !c.is_val_known()).forEach(this::link_dependent_cells);
+
+    }
+
+    public Puzzle get_values_for_unknowns() {
+        for (int i=0;i<this.size;i++) {
             for (int j = 0; j < this.size; j++) {
                 Cell c = this.get_pos(i, j);
                 if (!c.is_val_known()) {
-                    this.link_dependent_cells(c);
+                    List<Integer> possible_values = this.get_possible_values(i, j);
+                    if (possible_values.size() == 1) {
+                        c.setValue(possible_values.get(0));
+                    } else {
+                        c.possible_values = possible_values;
+                    }
                 }
             }
         }
+        return this;
     }
 
     public List<Cell> get_cells() {

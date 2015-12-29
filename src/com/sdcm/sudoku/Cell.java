@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by Mihai on 12/26/2015.
@@ -30,12 +31,18 @@ public class Cell {
     }
 
     public void update(Cell subject){
-        this.possible_values = this.possible_values
-                .stream()
-                .filter(i -> !subject.value().equals(i))
-                .collect(Collectors.toList());
-        if (this.possible_values.size() == 1) {
-            this.setValue(this.possible_values.get(0));
+        this.remove_possive_value(subject.value());
+    }
+
+    public void remove_possive_value(Integer value) {
+        if (this.possible_values.contains(value)) {
+            this.possible_values = this.possible_values
+                    .stream()
+                    .filter(i -> !value.equals(i))
+                    .collect(Collectors.toList());
+            if (this.possible_values.size() == 1) {
+                this.setValue(this.possible_values.get(0));
+            }
         }
     }
 

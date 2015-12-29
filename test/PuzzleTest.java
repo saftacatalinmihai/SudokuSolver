@@ -119,6 +119,7 @@ public class PuzzleTest {
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle2.txt");
         Puzzle solved = Solver.solve2(p);
         solved.print_puzzle();
+        assertEquals(true, solved.is_solved());
     }
 
     @Test
@@ -140,7 +141,8 @@ public class PuzzleTest {
 //        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil");
 //        Puzzle p_solved = Solver.solve2(p);
 //        p_solved.print_puzzle();
-//        assertEquals(p_solved.get_pos(0,0).value(), new Integer(9));
+//        assertEquals(true, p.is_solved());
+//        assertEquals(new Integer(3), p_solved.get_pos(0,0).value());
 //    }
 
     @Test
@@ -148,7 +150,8 @@ public class PuzzleTest {
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle_hard");
         Puzzle p_solved = Solver.solve2(p);
         p_solved.print_puzzle();
-        assertEquals(p_solved.get_pos(0, 0).value(), new Integer(3));
+        assertEquals(true, p_solved.is_solved());
+        assertEquals(new Integer(3), p_solved.get_pos(0, 0).value());
     }
 
     @Test
@@ -156,5 +159,6 @@ public class PuzzleTest {
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle3.txt");
         Puzzle p_solved = Solver.solve2(p);
         p_solved.print_puzzle();
+        assertEquals(true, p_solved.is_solved());
     }
 }
