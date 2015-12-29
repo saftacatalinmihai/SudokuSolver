@@ -102,14 +102,14 @@ public class PuzzleTest {
 
     @Test
     public void testSolveEasy() {
-        Puzzle p_solved = Solver.solve(this.p);
+        Puzzle p_solved = Solver.solve_dumb(this.p);
         p_solved.print_puzzle();
         assertEquals(p_solved.get_pos(0, 0).value(), new Integer(7));
     }
 
     @Test
     public void testSolve2Easy() {
-        Puzzle p_solved = Solver.solve2(this.p);
+        Puzzle p_solved = Solver.solve(this.p);
         p_solved.print_puzzle();
         assertEquals(p_solved.get_pos(0, 0).value(), new Integer(7));
     }
@@ -117,7 +117,7 @@ public class PuzzleTest {
     @Test
     public void testSolveMedium() {
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle2.txt");
-        Puzzle solved = Solver.solve2(p);
+        Puzzle solved = Solver.solve(p);
         solved.print_puzzle();
         assertEquals(true, solved.is_solved());
     }
@@ -131,24 +131,41 @@ public class PuzzleTest {
     @Test
     public void testSolve2Medium() {
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle2.txt");
-        Puzzle p_solved = Solver.solve2(p);
+        Puzzle p_solved = Solver.solve(p);
         p_solved.print_puzzle();
-        assertEquals(p_solved.get_pos(0, 0).value(), new Integer(9));
+        assertEquals(new Integer(9), p_solved.get_pos(0, 0).value());
+    }
+
+    @Test
+    public void testSolve2Evil(){
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil");
+        Puzzle p_solved = Solver.solve(p);
+        p_solved.print_puzzle();
+        assertEquals(true, p_solved.is_solved());
+        assertEquals(new Integer(8), p_solved.get_pos(0,0).value());
     }
 
 //    @Test
-//    public void testSolve2Evil(){
-//        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil");
-//        Puzzle p_solved = Solver.solve2(p);
+//    public void testSolve2Evil2(){
+//        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil2.txt");
+//        Puzzle p_solved = Solver.solve(p);
 //        p_solved.print_puzzle();
-//        assertEquals(true, p.is_solved());
-//        assertEquals(new Integer(3), p_solved.get_pos(0,0).value());
+//        assertEquals(true, p_solved.is_solved());
+//        assertEquals(new Integer(8), p_solved.get_pos(0,0).value());
 //    }
+
+    @Test
+    public void testEmpty(){
+        Puzzle p = new Puzzle(new ArrayList<>(), 9);
+        Puzzle p_solved = Solver.solve(p);
+        p_solved.print_puzzle();
+        assertEquals(true, p_solved.is_solved());
+    }
 
     @Test
     public void testSolve2Hard() {
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle_hard");
-        Puzzle p_solved = Solver.solve2(p);
+        Puzzle p_solved = Solver.solve(p);
         p_solved.print_puzzle();
         assertEquals(true, p_solved.is_solved());
         assertEquals(new Integer(3), p_solved.get_pos(0, 0).value());
@@ -157,7 +174,7 @@ public class PuzzleTest {
     @Test
     public void testReadPuzzleFromFile() {
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle3.txt");
-        Puzzle p_solved = Solver.solve2(p);
+        Puzzle p_solved = Solver.solve(p);
         p_solved.print_puzzle();
         assertEquals(true, p_solved.is_solved());
     }

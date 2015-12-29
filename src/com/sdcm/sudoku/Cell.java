@@ -55,7 +55,6 @@ public class Cell {
     }
 
     public void setValue (Integer value){
-//        System.out.println("Set [" + this.pos.i + ":" + this.pos.j + "] = " + value);
         this.possible_values = Collections.singletonList(value);
         notifyAllObservers();
     }
