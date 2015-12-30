@@ -3,6 +3,7 @@ import com.sdcm.sudoku.Puzzle;
 import com.sdcm.sudoku.ReadFromFile;
 import com.sdcm.sudoku.Solver;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -138,21 +139,39 @@ public class PuzzleTest {
 
     @Test
     public void testSolve2Evil(){
-        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil");
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil.txt");
         Puzzle p_solved = Solver.solve(p);
         p_solved.print_puzzle();
         assertEquals(true, p_solved.is_solved());
         assertEquals(new Integer(8), p_solved.get_pos(0,0).value());
     }
 
-//    @Test
-//    public void testSolve2Evil2(){
-//        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil2.txt");
-//        Puzzle p_solved = Solver.solve(p);
-//        p_solved.print_puzzle();
-//        assertEquals(true, p_solved.is_solved());
-//        assertEquals(new Integer(8), p_solved.get_pos(0,0).value());
-//    }
+    @Test
+    public void testSolveEvil2(){
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_evil2.txt");
+        Puzzle p_solved = Solver.solve(p);
+        p_solved.print_puzzle();
+        assertEquals(true, p_solved.is_solved());
+    }
+
+    @Ignore
+    @Test
+    public void testSolveExpert(){
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_expert.txt");
+        Puzzle p_solved = Solver.solve(p);
+        p_solved.print_puzzle();
+        assertEquals(true, p_solved.is_solved());
+    }
+
+    @Ignore
+    @Test
+    public void testSolveHardest(){
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_hardest.txt");
+        Puzzle p_solved = Solver.solve(p);
+        p_solved.print_puzzle();
+        assertEquals(true, p_solved.is_solved());
+        assertEquals(new Integer(8), p_solved.get_pos(0,0).value());
+    }
 
     @Test
     public void testEmpty(){
@@ -164,7 +183,7 @@ public class PuzzleTest {
 
     @Test
     public void testSolve2Hard() {
-        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_hard");
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_hard.txt");
         Puzzle p_solved = Solver.solve(p);
         p_solved.print_puzzle();
         assertEquals(true, p_solved.is_solved());
@@ -177,5 +196,28 @@ public class PuzzleTest {
         Puzzle p_solved = Solver.solve(p);
         p_solved.print_puzzle();
         assertEquals(true, p_solved.is_solved());
+    }
+
+    @Test
+    public void testEqualityPuzzles(){
+        Cell cell1 = new Cell(0,0,1);
+        Cell cell2 = new Cell(0,0,1);
+        assertTrue(cell1.equals(cell2));
+
+        List<Cell> c1 = Arrays.asList(
+                new Cell(0,0,1), new Cell(0, 1, 2)
+        );
+        Puzzle p1 = new Puzzle(new ArrayList<>(c1), 2);
+
+        List<Cell> c2 = Arrays.asList(
+                new Cell(0,0,1), new Cell(0, 1, 2)
+        );
+        Puzzle p2 = new Puzzle(new ArrayList<>(c2), 2);
+        System.out.println(p1.equals(p2));
+        assertTrue(p1.equals(p2));
+
+        ArrayList<Puzzle> tried = new ArrayList<>();
+        tried.add(p1);
+        assertTrue(tried.contains(p2));
     }
 }

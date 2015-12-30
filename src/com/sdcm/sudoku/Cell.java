@@ -1,8 +1,6 @@
 package com.sdcm.sudoku;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -85,5 +83,29 @@ public class Cell {
 
     public boolean is_val_known(){
         return this.value() != 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cell cell = (Cell) o;
+
+        if (pos != null ? !pos.equals(cell.pos) : cell.pos != null) return false;
+        Set<Integer> set1 = new HashSet<>();
+        set1.addAll(this.possible_values);
+        Set<Integer> set2 = new HashSet<>();
+        set2.addAll(cell.possible_values);
+        return set1.equals(set2);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pos != null ? pos.hashCode() : 0;
+        result = 31 * result + (possible_values != null ? possible_values.hashCode() : 0);
+//        result = 31 * result + (observers != null ? observers.hashCode() : 0);
+        return result;
     }
 }
