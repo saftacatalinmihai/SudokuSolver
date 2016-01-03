@@ -7,9 +7,9 @@ package com.sdcm.sudoku;
  */
 public class MaybeSolvedPuzzle {
     public final Puzzle puzzle;
-    public final boolean unsolvable;
-    public MaybeSolvedPuzzle(Puzzle puzzle, boolean unsolvable) {
+    public final boolean is_solved;
+    public MaybeSolvedPuzzle(Puzzle puzzle, boolean is_solved) {
         this.puzzle = puzzle;
-        this.unsolvable = unsolvable;
+        this.is_solved = is_solved;
     }
 }
