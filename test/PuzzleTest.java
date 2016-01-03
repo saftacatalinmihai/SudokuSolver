@@ -154,7 +154,6 @@ public class PuzzleTest {
         assertEquals(true, p_solved.is_solved());
     }
 
-    @Ignore
     @Test
     public void testSolveExpert(){
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle_expert.txt");
@@ -163,7 +162,7 @@ public class PuzzleTest {
         assertEquals(true, p_solved.is_solved());
     }
 
-    @Ignore
+
     @Test
     public void testSolveHardest(){
         Puzzle p = ReadFromFile.readPuzzle("test/puzzle_hardest.txt");
@@ -219,5 +218,22 @@ public class PuzzleTest {
         ArrayList<Puzzle> tried = new ArrayList<>();
         tried.add(p1);
         assertTrue(tried.contains(p2));
+    }
+
+    @Test
+    public void testListRemove(){
+        List<Integer> int_list = new ArrayList<>();
+        int_list.add(1);
+        int_list.add(2);
+        int_list.add(3);
+        int_list.stream().forEach(System.out::print);
+        System.out.println();
+
+        Integer int0 = int_list.remove(0);
+        System.out.println(int0);
+
+        int_list.stream().forEach(System.out::print);
+        System.out.println();
+
     }
 }

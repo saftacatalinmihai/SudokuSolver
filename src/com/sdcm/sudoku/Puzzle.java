@@ -10,8 +10,14 @@ import java.util.stream.Stream;
  *
  */
 public class Puzzle {
-    public int size;
-    private List<Cell> cells;
+    public final int size;
+    private final List<Cell> cells;
+
+    public Puzzle(){
+        this.cells = new ArrayList<>();
+        this.size = 9;
+    }
+
     public Puzzle(List<Cell> _cells, int size){
         this.cells = _cells;
         this.size = size;
@@ -106,6 +112,7 @@ public class Puzzle {
                     );
                     System.out.println();
                 });
+        System.out.println();
     }
 
     public List<Integer> get_possible_values(int i, int j){
