@@ -9,20 +9,6 @@ import java.util.stream.Collectors;
  */
 public class Solver {
 
-    public static Puzzle solve_dumb(Puzzle p) {
-        while (!p.is_solved()) {
-            p.get_values_for_unknowns();
-        }
-        return p;
-    }
-
-    public static List<Cell>  get_cells_to_try(Puzzle p) {
-        return  p.cellStream()
-                .filter((c) -> !c.is_val_known())
-                .sorted((c1, c2) -> Integer.compare(c1.possible_values.size(), c2.possible_values.size()))
-                .collect(Collectors.toList());
-    }
-
     public static Puzzle solve(Puzzle p) {
         List<Cell> cells_ordered_by_least_possibilities = get_cells_to_try(p);
         MaybeSolvedPuzzle solved = _solve(p, cells_ordered_by_least_possibilities);
@@ -63,5 +49,18 @@ public class Solver {
         return new MaybeSolvedPuzzle(null, true);
     }
 
-}
+    public static List<Cell>  get_cells_to_try(Puzzle p) {
+        return  p.cellStream()
+                .filter((c) -> !c.is_val_known())
+                .sorted((c1, c2) -> Integer.compare(c1.possible_values.size(), c2.possible_values.size()))
+                .collect(Collectors.toList());
+    }
 
+    public static Puzzle solve_dumb(Puzzle p) {
+        while (!p.is_solved()) {
+            p.get_values_for_unknowns();
+        }
+        return p;
+    }
+
+}

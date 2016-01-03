@@ -151,28 +151,4 @@ public class Puzzle {
                 .forEach(c -> c.attach(cell));
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Puzzle puzzle = (Puzzle) o;
-
-        if (size != puzzle.size) return false;
-//        Set<Integer> set1 = new HashSet<>();
-//        set1.addAll(puzzle.cells.stream().map(Cell::value).collect(Collectors.toList()));
-//        Set<Integer> set2 = new HashSet<>();
-//        set2.addAll(this.cells.stream().map(Cell::value).collect(Collectors.toList()));
-//        return set1.equals(set2);
-        return cells.stream().allMatch(c -> puzzle.cellStream().anyMatch(cell -> cell.equals(c)));
-//        return cells.equals(puzzle.cells);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = size;
-        result = 31 * result + cells.hashCode();
-        return result;
-    }
 }

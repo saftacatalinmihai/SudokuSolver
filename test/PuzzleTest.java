@@ -206,6 +206,8 @@ public class PuzzleTest {
         assertEquals(true, p_solved.is_solved());
     }
 
+    // Don't need this anymore
+    @Ignore
     @Test
     public void testEqualityPuzzles(){
         Cell cell1 = new Cell(0,0,1);

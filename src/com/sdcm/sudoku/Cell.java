@@ -2,7 +2,6 @@ package com.sdcm.sudoku;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by Mihai on 12/26/2015.
@@ -29,10 +28,10 @@ public class Cell {
     }
 
     public void update(Cell subject){
-        this.remove_possive_value(subject.value());
+        this.remove_possible_value(subject.value());
     }
 
-    public void remove_possive_value(Integer value) {
+    public void remove_possible_value(Integer value) {
         if (this.possible_values.contains(value)) {
             this.possible_values = this.possible_values
                     .stream()
@@ -47,9 +46,8 @@ public class Cell {
     public Integer value() {
         if (this.possible_values.size() == 1) {
             return this.possible_values.get(0);
-        } else {
-            return 0;
         }
+        return 0;
     }
 
     public void setValue (Integer value){
@@ -85,27 +83,4 @@ public class Cell {
         return this.value() != 0;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Cell cell = (Cell) o;
-
-        if (pos != null ? !pos.equals(cell.pos) : cell.pos != null) return false;
-        Set<Integer> set1 = new HashSet<>();
-        set1.addAll(this.possible_values);
-        Set<Integer> set2 = new HashSet<>();
-        set2.addAll(cell.possible_values);
-        return set1.equals(set2);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = pos != null ? pos.hashCode() : 0;
-        result = 31 * result + (possible_values != null ? possible_values.hashCode() : 0);
-//        result = 31 * result + (observers != null ? observers.hashCode() : 0);
-        return result;
-    }
 }
