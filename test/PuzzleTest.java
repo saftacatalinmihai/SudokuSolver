@@ -173,6 +173,15 @@ public class PuzzleTest {
     }
 
     @Test
+    public void testSolveHard2(){
+        Puzzle p = ReadFromFile.readPuzzle("test/puzzle_hard2.txt");
+        Puzzle p_solved = Solver.solve(p);
+        p_solved.print_puzzle();
+        assertEquals(true, p_solved.is_solved());
+        assertEquals(new Integer(1), p_solved.get_pos(0,0).value());
+    }
+
+    @Test
     public void testEmpty(){
         Puzzle p = new Puzzle(new ArrayList<>(), 9);
         Puzzle p_solved = Solver.solve(p);
