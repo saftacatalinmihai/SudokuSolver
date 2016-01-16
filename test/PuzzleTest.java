@@ -5,6 +5,7 @@ import com.sdcm.sudoku.Solver;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -247,4 +248,28 @@ public class PuzzleTest {
         System.out.println();
 
     }
+
+//    @Test
+//    public void test_obs_solve(){
+//        Puzzle p = ReadFromFile.readPuzzle("test/puzzle3.txt");
+////        Observable<Puzzle> solved = Solver.solve_observable(p);
+////        solved.subscribe(
+////            solved_p -> {
+////                solved_p.print_puzzle();
+////                assertEquals(true, solved_p.is_solved());
+////            }
+////        );
+//
+//        p = ReadFromFile.readPuzzle("test/puzzle_hardest.txt");
+//        Observable<Puzzle> solved = Solver.solve_observable(p);
+//        solved.subscribe(
+//                solved_p -> {
+//                    solved_p.print_puzzle();
+//                    assertEquals(true, solved_p.is_solved());
+//                }
+//        );
+//        try {
+//            System.in.read();
+//        } catch (Exception ex){ex.printStackTrace();}
+//    }
 }
